@@ -28,30 +28,17 @@
 #if defined(WITBOX_DUAL)
 	#define MACHINE_NAME "bq WitboxDual"
 	#define FIRMWARE_URL "http://www.bqreaders.com/descargas-witbox.html"
-	#define FIRMWARE_VER "v1.3.1-Dual"
+	#define FIRMWARE_VER "v1.4-Dual"
 #elif defined(WITBOX)
 	#define MACHINE_NAME "bq Witbox"
 	#define FIRMWARE_URL "http://www.bqreaders.com/descargas-witbox.html"
-	#define FIRMWARE_VER "v1.3.1"
+	#define FIRMWARE_VER "v1.4"
+#elif defined(CUSTOM_MENDEL_NAME)
+	#define MACHINE_NAME CUSTOM_MENDEL_NAME
 #else
-	#if MOTHERBOARD == 7 || MOTHERBOARD == 71 || MOTHERBOARD == 72
-		#define MACHINE_NAME "Ultimaker"
-		#define FIRMWARE_URL "http://firmware.ultimaker.com"
-	#elif MOTHERBOARD == 80
-		#define MACHINE_NAME "Rumba"
-		#define FIRMWARE_URL "https://github.com/ErikZalm/Marlin/"
-	#elif MOTHERBOARD == 77
-		#define MACHINE_NAME "3Drag"
-		#define FIRMWARE_URL "http://3dprint.elettronicain.it/"
-	#else
-		#ifdef CUSTOM_MENDEL_NAME
-			#define MACHINE_NAME CUSTOM_MENDEL_NAME
-		#else
-			#define MACHINE_NAME "Mendel"
-		#endif
-// Default firmware set to Mendel
+	// Default firmware set to Mendel
+	#define MACHINE_NAME "Mendel"
 	#define FIRMWARE_URL "https://github.com/ErikZalm/Marlin/"
-#endif
 #endif
 
 #ifndef MACHINE_UUID
@@ -259,37 +246,76 @@
 
 	#ifdef WITBOX
 
-	#define MSG_FILAMENT "Filament"
-	#define MSG_LEVEL_PLATE "Level plate"
-	#define MSG_START_SCRIPT "Start script"
-	#define MSG_PREHEAT "Preheat"
-	#define MSG_JOG "Jog"
-	#define MSG_LOAD "Load"
-	#define MSG_UNLOAD "Unload"
-	#define MSG_ABORT "Abort" 
-	#define MSG_PRE_EXTRUD "Insert & Press"      
-	#define MSG_EXTRUDING "Extruding..." 
-	#define MSG_LENGTH "Length:"         
-	#define MSG_RETRACTING "Retracting"
-	#define MSG_WELLCOME "bq Witbox"
-	#define MSG_LP_INTRO "  Leveling plate...    Press to start   "
-	#define MSG_LP_1 " Adjust first point  & Press the button"
-	#define MSG_LP_2 "Adjust second point  & Press the button"
-	#define MSG_LP_3 "Adjust third point   & Press the button"
-	#define MSG_LP_4 "Adjust fourth point   & Press the button"
-        #define MSG_LP_5 "     Is it ok?         Press to end"       
-        #define MSG_LP_6 " Plate leveled!"
+		#define MSG_FILAMENT "Filament"
+		#define MSG_LEVEL_PLATE "Level plate"
+		#define MSG_START_SCRIPT "Start script"
+		#define MSG_PREHEAT "Preheat"
+		#define MSG_JOG "Jog"
+		#define MSG_LOAD "Load"
+		#define MSG_UNLOAD "Unload"
+		#define MSG_ABORT "Abort" 
+		#define MSG_PRE_EXTRUD "Insert & Press"      
+		#define MSG_EXTRUDING "Extruding..." 
+		#define MSG_LENGTH "Length:"         
+		#define MSG_RETRACTING "Retracting"
+		#define MSG_WELLCOME "bq Witbox"
 
-	#define MSG_LP_COOL_1 "Cooling..."
-	#define MSG_LP_COOL_2 "Temp:"
-	#define MSG_LP_COOL_3 "   Press to abort"
+		#define MSG_LP_COOL_1 "Cooling..."
+		#define MSG_LP_COOL_2 "Temp:"
+		#define MSG_LP_COOL_3 "   Press to abort"
+		#define MSG_LB_COOL_1 "Cooling..."
+		#define MSG_LB_COOL_2 "Temp:"
 
-	#ifdef WITBOX_DUAL
-	  #define MSG_EXTRUDER_1 "Left extruder"
-	  #define MSG_EXTRUDER_2 "Rigth extruder"
-	#endif //WITBOX_DUAL
+		#define MSG_CF_HEAT_1 "Heating..."
+		#define MSG_CF_HEAT_2 "Temp:"
 
-	#endif //#ifdef WITBOX
+		#define MSG_EXIT "Press to abort..."
+
+
+		#define MSG_WIZARD_LEVELBED_0_1 		" Leveling plate...  "
+		#define MSG_WIZARD_LEVELBED_0_2			"   Press to start   "
+
+		#define MSG_WIZARD_LEVELBED_1_1 		" Adjust first point "
+		#define MSG_WIZARD_LEVELBED_1_2 		" & Press the button "
+
+		#define MSG_WIZARD_LEVELBED_2_1 		"Adjust second point "
+		#define MSG_WIZARD_LEVELBED_2_2 		" & Press the button "
+
+		#define MSG_WIZARD_LEVELBED_3_1 		" Adjust third point "
+		#define MSG_WIZARD_LEVELBED_3_2 		" & Press the button "
+
+		#define MSG_WIZARD_LEVELBED_4_1 		"Adjust fourth point "
+		#define MSG_WIZARD_LEVELBED_4_2 		" & Press the button "
+
+		#define MSG_WIZARD_LEVELBED_5_1 		"     Is it ok?      "
+		
+		#define MSG_WIZARD_LEVELBED_6_1 		"   Plate leveled!   "
+
+
+		#define MSG_WIZARD_CHANGEFILAMENT_0_0	"Press the button to "
+		#define MSG_WIZARD_CHANGEFILAMENT_0_1	" start the process  "
+		#define MSG_WIZARD_CHANGEFILAMENT_0_2	"and extract filament"
+
+		#define MSG_WIZARD_CHANGEFILAMENT_1_0	" Pull the filament  "
+		#define MSG_WIZARD_CHANGEFILAMENT_1_1	"quickly when it has "
+		#define MSG_WIZARD_CHANGEFILAMENT_1_2	" stopped extruding  "
+
+		#define MSG_WIZARD_CHANGEFILAMENT_2_0	"   Insert the new   "
+		#define MSG_WIZARD_CHANGEFILAMENT_2_1	" filament and press "
+		#define MSG_WIZARD_CHANGEFILAMENT_2_2   "     the button     "
+
+		#define MSG_WIZARD_CHANGEFILAMENT_3_0	" When the filament  "
+		#define MSG_WIZARD_CHANGEFILAMENT_3_1	"extrudes, press the "
+		#define MSG_WIZARD_CHANGEFILAMENT_3_2	"  button to resume  "
+		#define MSG_WIZARD_CHANGEFILAMENT_3_3	"      printing      "
+
+		#ifdef WITBOX_DUAL
+			#define MSG_EXTRUDER_1 "Left extruder"
+			#define MSG_EXTRUDER_2 "Rigth extruder"
+		#endif // WITBOX_DUAL
+
+		#define MSG_SD_BAD_FILENAME "Bad filename!"
+	#endif // WITBOX
 #endif
 
 
@@ -788,11 +814,56 @@
 	#define MSG_LP_2 " Nivela el punto 2     Pulsa la rueda"
 	#define MSG_LP_3 " Nivela el punto 3     Pulsa la rueda"
 	#define MSG_LP_4 " Nivela el punto 4     Pulsa la rueda"        
-        #define MSG_LP_5 "Comprueba el centro  Pulsa para acabar"
-        #define MSG_LP_6 "Base nivelada"
+	#define MSG_LP_5 "Comprueba el centro  Pulsa para acabar"
+	#define MSG_LP_6 "Base nivelada"
 	#define MSG_LP_COOL_1 "Enfriando..."
 	#define MSG_LP_COOL_2 "Temp:"
 	#define MSG_LP_COOL_3 "  Pulsa para salir"
+	#define MSG_LB_COOL_1 "Cooling..."
+	#define MSG_LB_COOL_2 "Temp:"
+
+	#define MSG_CF_HEAT_1 "Heating..."
+	#define MSG_CF_HEAT_2 "Temp:"
+
+	#define MSG_EXIT "Press to abort..."
+
+	#define MSG_SD_BAD_FILENAME "Nombre ilegal"
+
+	#define MSG_WIZARD_LEVELBED_0_1 		"Nivelando la base..."
+	#define MSG_WIZARD_LEVELBED_0_2			" Pulsa para empezar "
+
+	#define MSG_WIZARD_LEVELBED_1_1 		" Nivela el punto 1  "
+	#define MSG_WIZARD_LEVELBED_1_2 		"   Pulsa la rueda   "
+
+	#define MSG_WIZARD_LEVELBED_2_1 		" Nivela el punto 2  "
+	#define MSG_WIZARD_LEVELBED_2_2 		"   Pulsa la rueda   "
+
+	#define MSG_WIZARD_LEVELBED_3_1 		" Nivela el punto 3  "
+	#define MSG_WIZARD_LEVELBED_3_2 		"   Pulsa la rueda   "
+
+	#define MSG_WIZARD_LEVELBED_4_1 		" Nivela el punto 4  "
+	#define MSG_WIZARD_LEVELBED_4_2 		"   Pulsa la rueda   "
+
+	#define MSG_WIZARD_LEVELBED_5_1 		"Comprueba el centro "
+		
+	#define MSG_WIZARD_LEVELBED_6_1 		"   Base nivelada    "
+
+	#define MSG_WIZARD_CHANGEFILAMENT_0_0	"Pulsa el boton para "
+	#define MSG_WIZARD_CHANGEFILAMENT_0_1	" iniciar el proceso "
+	#define MSG_WIZARD_CHANGEFILAMENT_0_2	"y extraer filamento "
+
+	#define MSG_WIZARD_CHANGEFILAMENT_1_0	"  Tira rapidamente  "
+	#define MSG_WIZARD_CHANGEFILAMENT_1_1	"del filamento cuando"
+	#define MSG_WIZARD_CHANGEFILAMENT_1_2	" termine de extruir "
+
+	#define MSG_WIZARD_CHANGEFILAMENT_2_0	"  Inserta el nuevo  "
+	#define MSG_WIZARD_CHANGEFILAMENT_2_1	"  filamento y pulsa "
+	#define MSG_WIZARD_CHANGEFILAMENT_2_2   "      el boton      "
+
+	#define MSG_WIZARD_CHANGEFILAMENT_3_0	" Cuando extruya el  "
+	#define MSG_WIZARD_CHANGEFILAMENT_3_1	"filamento, pulsa el "
+	#define MSG_WIZARD_CHANGEFILAMENT_3_2	"boton para reanudar "
+	#define MSG_WIZARD_CHANGEFILAMENT_3_3	"    la impresion    "
 	
 	#endif //#ifdef WITBOX
 
