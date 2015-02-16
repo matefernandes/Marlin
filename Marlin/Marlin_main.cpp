@@ -668,13 +668,7 @@ void get_command()
 						case 1:
 						case 2:
 						case 3:
-							if(Stopped == false) { // If printer is stopped by an error the G[0-3] codes are ignored.
-#ifdef SDSUPPORT
-	      							if(card.saving)
-									break;
-#endif // SDSUPPORT
-		      						SERIAL_PROTOCOLLNPGM(MSG_OK);
-							} else {
+							if(Stopped == true) {
 								SERIAL_ERRORLNPGM(MSG_ERR_STOPPED);
 								LCD_MESSAGEPGM(MSG_STOPPED);
                 lcd_update();
@@ -1196,25 +1190,22 @@ void process_commands()
 	    			}
 #endif // FWRETRACT
 				prepare_move();
-				//ClearToSend();
-				return;
-
 			}
-     			//break;
+     			break;
 
     		case 2: // G2  - CW ARC
 			if(Stopped == false) {
 				get_arc_coordinates();
 				prepare_arc_move(true);
-				return;
 			}
+			break;
 
 		case 3: // G3  - CCW ARC
 			if(Stopped == false) {
 				get_arc_coordinates();
 				prepare_arc_move(false);
-				return;
 			}
+			break;
     case 4: // G4 dwell
       LCD_MESSAGEPGM(MSG_DWELL);
       codenum = 0;
@@ -1705,7 +1696,7 @@ void process_commands()
     case 23: //M23 - Select file
       starpos = (strchr(strchr_pointer + 4,'*'));
       if(starpos!=NULL)
-        *(starpos-1)='\0';
+        *(starpos)='\0';
       card.openFile(strchr_pointer + 4,true);
       break;
     case 24: //M24 - Start SD print
@@ -1790,7 +1781,7 @@ void process_commands()
       if(starpos != NULL){
 	char* npos = strchr(cmdbuffer[bufindr], 'N');
 	strchr_pointer = strchr(npos,' ') + 1;
-	*(starpos-1) = '\0';
+	*(starpos) = '\0';
       }
       card.openFile(strchr_pointer+4,false);
       break;
@@ -1805,7 +1796,7 @@ void process_commands()
 	if(starpos != NULL){
 	  char* npos = strchr(cmdbuffer[bufindr], 'N');
 	  strchr_pointer = strchr(npos,' ') + 1;
-	  *(starpos-1) = '\0';
+	  *(starpos) = '\0';
 	}
 	card.removeFile(strchr_pointer + 4);
       }
@@ -1827,7 +1818,7 @@ void process_commands()
 	namestartpos++; //to skip the '!'
 
       if(starpos!=NULL)
-	*(starpos-1)='\0';
+	*(starpos)='\0';
 
       bool call_procedure=(code_seen('P'));
 
@@ -1850,7 +1841,7 @@ void process_commands()
       if(starpos != NULL){
 	char* npos = strchr(cmdbuffer[bufindr], 'N');
 	strchr_pointer = strchr(npos,' ') + 1;
-	*(starpos-1) = '\0';
+	*(starpos) = '\0';
       }
       card.openLogFile(strchr_pointer+5);
       break;
@@ -2283,7 +2274,7 @@ void process_commands()
       #ifdef GCODE_MESSAGES_ENABLE
       starpos = (strchr(strchr_pointer + 5,'*'));
       if(starpos!=NULL)
-        *(starpos-1)='\0';
+        *(starpos)='\0';
       lcd_setstatus(strchr_pointer + 5);
       #endif // GCODE_MESSAGES_ENABLE
       break;
