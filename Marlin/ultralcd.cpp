@@ -32,8 +32,12 @@ int absPreheatFanSpeed;
 uint8_t prev_encoder_position;
 
 float move_menu_scale;
-//
 
+//Filament loading/unloading
+const uint8_t NORMAL = 0;
+const uint8_t LOADING = 1;
+const uint8_t UNLOADING = 2;
+uint8_t filamentStatus = NORMAL;
 
 // Display related variables
 uint8_t    display_refresh_mode;
@@ -136,6 +140,8 @@ static void view_menu_main();
     
       void draw_menu_filament_load();
       static void view_menu_filament_load();
+	  void pre_filament_load();
+	  void pre_filament_unload();
 
         void draw_menu_filament_insert();
         static void view_menu_filament_insert();
@@ -603,6 +609,7 @@ static void lcd_set_encoder_position(int8_t position)
     
 
 // Menu Drawers
+static void menu_action_text();
 static void menu_action_back(func_t function);
 static void menu_action_submenu(func_t function);
 static void menu_action_gcode(const char* pgcode);
@@ -679,7 +686,7 @@ static void view_menu_main()
         }
 
     } else {
-        MENU_ITEM(submenu, MSG_NO_CARD, draw_menu_sdcard);
+        MENU_ITEM(text, MSG_NO_CARD);
 
 #  if (SDCARDDETECT < 1)
         MENU_ITEM(gcode, MSG_INIT_SDCARD, PSTR("M21")); // Manually initialize the SD-card via user interface
@@ -876,14 +883,26 @@ static void view_menu_filament()
 {
     START_MENU();
     MENU_ITEM(back, MSG_BACK, draw_menu_control);
-    MENU_ITEM(submenu, MSG_LOAD, draw_menu_filament_load);
-    MENU_ITEM(submenu, MSG_UNLOAD, draw_menu_filament_unload);
+    MENU_ITEM(submenu, MSG_LOAD, pre_filament_load);
+    MENU_ITEM(submenu, MSG_UNLOAD, pre_filament_unload);
     END_MENU();   
+}
+
+void pre_filament_load()
+{
+	filamentStatus = LOADING;
+	draw_picture_set_temperature();
+}
+
+void pre_filament_unload()
+{
+	filamentStatus = UNLOADING;
+	draw_picture_set_temperature();
 }
 
 void draw_menu_filament_load()
 {
-    setTargetHotend0(Change_Filament_Target_Temp);
+    setTargetHotend0(target_temperature[0]);
     fanSpeed = PREHEAT_FAN_SPEED;
 
     lcd_disable_display_timeout();
@@ -968,7 +987,7 @@ static void view_menu_filament_insert()
 
 void draw_menu_filament_unload()
 {
-    setTargetHotend0(Change_Filament_Target_Temp);
+    setTargetHotend0(target_temperature[0]);
     fanSpeed = PREHEAT_FAN_SPEED;
 
     lcd_disable_display_timeout();
@@ -1972,7 +1991,7 @@ static void view_picture_set_temperature()
         encoder_position = 0;
         
         if (target_temperature[0] < EXTRUDE_MINTEMP) {
-            target_temperature[0] = EXTRUDE_MINTEMP;
+            target_temperature[0] = Change_Filament_Target_Temp;
         }
         if (target_temperature[0] > (HEATER_0_MAXTEMP - 10)) {
             target_temperature[0] = (HEATER_0_MAXTEMP - 10);
@@ -2003,7 +2022,14 @@ static void view_picture_set_temperature()
     }
 
     if (lcd_get_button_clicked()) {
-        draw_menu_main();
+        if (filamentStatus==LOADING) {
+			draw_menu_filament_load();
+		}else if (filamentStatus==UNLOADING) {
+			draw_menu_filament_unload();
+		} else {
+        	draw_menu_main();
+		}
+		filamentStatus = NORMAL;
     }
 
     display_refresh_mode == NO_UPDATE_SCREEN;
@@ -2156,6 +2182,8 @@ static void view_picture_splash()
     display_refresh_mode == NO_UPDATE_SCREEN;
     lcd_clear_triggered_flags();
 }
+
+static void menu_action_text() {}
 
 static void menu_action_back(func_t function)
 {
